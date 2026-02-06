@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Home - Wayne's World{% endblock %}
+{% block content %}
+    <h1>Welcome to Wayne's World</h1>
+    <p>Party on, {{ user.username }}!</p>
+    <a href="{% url 'level2' %}" class="btn">Test Application</a>
+{% endblock %}

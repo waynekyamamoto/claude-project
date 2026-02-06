@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">Login</button>
+    </form>
+    <p style="margin-top:15px;">
+        <a href="{% url 'password_reset' %}" style="color:#e94560;">Forgot password?</a> |
+        <a href="{% url 'register' %}" style="color:#e94560;">Register</a>
+    </p>
+{% endblock %}
