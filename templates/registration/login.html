@@ -1,7 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Wayne's World{% endblock %}
 {% block content %}
-    <h1>Login</h1>
+    <h1>Wayne's World</h1>
+    {% if form.non_field_errors %}
+        <div style="background: #3a1020; border: 1px solid #e94560; border-radius: 5px; padding: 12px; margin-bottom: 20px;">
+            {% for error in form.non_field_errors %}
+                <p style="color: #e94560; margin: 0;">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         {% for field in form %}
@@ -9,9 +16,14 @@
                 <label>{{ field.label }}</label>
                 {{ field }}
                 {{ field.errors }}
+                {% if field.name == "password" %}
+                <label style="display: inline; margin-top: 6px; cursor: pointer; font-size: 13px; color: #aaa;">
+                    <input type="checkbox" onclick="var p=document.getElementById('id_password');p.type=this.checked?'text':'password';" style="vertical-align: middle;"> Show password
+                </label>
+                {% endif %}
             </div>
         {% endfor %}
-        <button type="submit" class="btn">Login</button>
+        <button type="submit" class="btn">Sign In</button>
     </form>
     <p style="margin-top:15px;">
         <a href="{% url 'password_reset' %}" style="color:#e94560;">Forgot password?</a> |

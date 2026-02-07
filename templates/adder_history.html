@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Adder Mania History - Wayne's World{% endblock %}
+{% block content %}
+<style>
+    .container { max-width: 700px; }
+    .history-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .history-table th, .history-table td { padding: 10px 12px; border-bottom: 1px solid #333; text-align: center; }
+    .history-table th { color: #e94560; }
+</style>
+<h1>Adder Mania History</h1>
+{% if games %}
+<table class="history-table">
+    <thead><tr><th>Date</th><th>Score</th><th>Stars</th></tr></thead>
+    <tbody>
+    {% for game in games %}
+        <tr>
+            <td>{{ game.played_at|date:"M d, Y H:i" }}</td>
+            <td>{{ game.score }} / {{ game.total }}</td>
+            <td>{% for q in game.questions.all %}{% if q.correct %}⭐{% endif %}{% endfor %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No games played yet.</p>
+{% endif %}
+<div style="margin-top: 20px;">
+    <a href="{% url 'adder' %}" class="btn">Play</a>
+    <a href="{% url 'home' %}" class="btn" style="margin-left: 10px; background: #16213e; border: 1px solid #e94560;">Go Home</a>
+</div>
+{% endblock %}

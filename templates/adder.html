@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block title %}Adder Mania - Wayne's World{% endblock %}
+{% block content %}
+<style>
+    .container { max-width: 700px; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    #answer-input {
+        font-size: 32px; width: 120px; text-align: center; padding: 10px;
+        border-radius: 8px; border: 2px solid #e94560; background: #0f3460; color: #eee;
+    }
+    .problem { font-size: 48px; margin: 30px 0; }
+    .result-icon { font-size: 80px; }
+    .correct { color: #4caf50; }
+    .wrong { color: #e94560; }
+    #feedback { min-height: 80px; margin: 10px 0; }
+    .summary-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .summary-table th, .summary-table td { padding: 8px 12px; border-bottom: 1px solid #333; }
+    .summary-table .correct-row td { color: #4caf50; }
+    .summary-table .wrong-row td { color: #e94560; }
+    .stars { font-size: 28px; margin: 15px 0; }
+    .score-display { font-size: 36px; font-weight: bold; margin: 20px 0; }
+    .btn-group .btn { margin: 5px; }
+</style>
+
+<!-- Start Screen -->
+<div id="start-screen" class="screen active">
+    <h1>Adder Mania</h1>
+    <p>Test your addition skills! 10 rounds of single-digit addition.</p>
+    <button class="btn" onclick="startGame()">Play</button>
+    <div style="margin-top: 20px;">
+        <a href="{% url 'adder_history' %}" class="btn" style="background: #16213e; border: 1px solid #e94560;">History</a>
+    </div>
+</div>
+
+<!-- Question Screen -->
+<div id="question-screen" class="screen">
+    <p style="font-size: 18px;">Question <span id="q-num"></span> of 10</p>
+    <div id="feedback"></div>
+    <div class="problem"><span id="num1"></span> + <span id="num2"></span> = ?</div>
+    <form onsubmit="submitAnswer(event)">
+        <input type="number" id="answer-input" autofocus>
+        <br><br>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</div>
+
+<!-- Summary Screen -->
+<div id="summary-screen" class="screen">
+    <h1>Game Over!</h1>
+    <div id="score-display" class="score-display"></div>
+    <div id="stars" class="stars"></div>
+    <table class="summary-table">
+        <thead><tr><th>#</th><th>Problem</th><th>Your Answer</th><th>Correct Answer</th></tr></thead>
+        <tbody id="summary-body"></tbody>
+    </table>
+    <div class="btn-group">
+        <a href="{% url 'home' %}" class="btn" style="background: #16213e; border: 1px solid #e94560;">Go Home</a>
+        <button class="btn" onclick="startGame()">Play Again</button>
+        <a href="{% url 'adder_history' %}" class="btn" style="background: #16213e; border: 1px solid #e94560;">History</a>
+    </div>
+</div>
+
+<script>
+const TOTAL = 10;
+let questions = [];
+let current = 0;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function randDigit() { return Math.floor(Math.random() * 10); }
+
+function startGame() {
+    questions = [];
+    current = 0;
+    for (let i = 0; i < TOTAL; i++) {
+        questions.push({ num1: randDigit(), num2: randDigit(), user_answer: null, correct: false });
+    }
+    showQuestion();
+}
+
+function showQuestion(feedbackHtml) {
+    const q = questions[current];
+    document.getElementById('q-num').textContent = current + 1;
+    document.getElementById('num1').textContent = q.num1;
+    document.getElementById('num2').textContent = q.num2;
+    document.getElementById('feedback').innerHTML = feedbackHtml || '';
+    showScreen('question-screen');
+    const input = document.getElementById('answer-input');
+    input.value = '';
+    input.focus();
+}
+
+function submitAnswer(e) {
+    e.preventDefault();
+    const input = document.getElementById('answer-input');
+    const val = input.value.trim();
+    if (val === '') return;
+    const answer = parseInt(val, 10);
+    const q = questions[current];
+    q.user_answer = answer;
+    q.correct = (answer === q.num1 + q.num2);
+
+    let feedback;
+    if (q.correct) {
+        feedback = '<span class="result-icon correct" style="font-size:40px;">\u2714</span> <span class="correct" style="font-size:24px;">Correct!</span>';
+    } else {
+        feedback = '<span class="result-icon wrong" style="font-size:40px;">\u2718</span> <span class="wrong" style="font-size:24px;">Wrong! ' + q.num1 + ' + ' + q.num2 + ' = ' + (q.num1 + q.num2) + '</span>';
+    }
+
+    current++;
+    if (current < TOTAL) {
+        showQuestion(feedback);
+    } else {
+        showSummary();
+    }
+}
+
+function showSummary() {
+    const score = questions.filter(q => q.correct).length;
+    document.getElementById('score-display').textContent = score + ' / ' + TOTAL;
+    document.getElementById('stars').textContent = '\u2B50'.repeat(score);
+
+    const tbody = document.getElementById('summary-body');
+    tbody.innerHTML = '';
+    questions.forEach((q, i) => {
+        const tr = document.createElement('tr');
+        tr.className = q.correct ? 'correct-row' : 'wrong-row';
+        tr.innerHTML = '<td>' + (i + 1) + '</td><td>' + q.num1 + ' + ' + q.num2 + '</td><td>' + q.user_answer + '</td><td>' + (q.num1 + q.num2) + '</td>';
+        tbody.appendChild(tr);
+    });
+
+    showScreen('summary-screen');
+    playApplause();
+    saveResults(score);
+}
+
+function playApplause() {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const duration = 2;
+        const sampleRate = ctx.sampleRate;
+        const buffer = ctx.createBuffer(1, sampleRate * duration, sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < data.length; i++) {
+            const envelope = Math.min(1, (data.length - i) / (sampleRate * 0.5));
+            data[i] = (Math.random() * 2 - 1) * 0.3 * envelope;
+        }
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1000;
+        filter.Q.value = 0.5;
+        source.connect(filter);
+        filter.connect(ctx.destination);
+        source.start();
+    } catch(e) {}
+}
+
+function saveResults(score) {
+    const payload = {
+        score: score,
+        total: TOTAL,
+        questions: questions.map(q => ({
+            num1: q.num1, num2: q.num2, user_answer: q.user_answer, correct: q.correct
+        }))
+    };
+    fetch('{% url "adder_save" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify(payload)
+    });
+}
+</script>
+{% endblock %}

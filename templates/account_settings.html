@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Account Settings - Wayne's World{% endblock %}
+{% block content %}
+    <h1>Account Settings</h1>
+    <div style="text-align: left; max-width: 400px; margin: 0 auto;">
+        <div style="background: #16213e; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h3 style="margin-top: 0;">Profile</h3>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email|default:"Not set" }}</p>
+        </div>
+        <div style="background: #16213e; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h3 style="margin-top: 0;">Security</h3>
+            <a href="{% url 'password_change' %}" class="btn">Change Password</a>
+        </div>
+        {% if user.is_staff %}
+        <div style="background: #16213e; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h3 style="margin-top: 0;">Administration</h3>
+            <a href="{% url 'admin:index' %}" class="btn">Django Admin</a>
+        </div>
+        {% endif %}
+    </div>
+    <a href="{% url 'home' %}" style="color: #e94560;">Back to Home</a>
+{% endblock %}

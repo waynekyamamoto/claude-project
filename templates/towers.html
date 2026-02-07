@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Towers of Hanoi - Wayne's World{% endblock %}
+{% block content %}
+<style>
+    .container { max-width: 800px !important; }
+    .controls { margin-bottom: 15px; }
+    .controls label { margin-right: 8px; }
+    .controls input[type=number], .controls button { padding: 8px 16px; font-size: 14px; border-radius: 4px; border: 1px solid #444; }
+    .controls input[type=number] { background: #0f3460; color: #eee; width: 60px; text-align: center; }
+    .controls button { cursor: pointer; margin-left: 6px; }
+    .btn-start { background: #27ae60; color: #fff; border: none; }
+    .btn-start:hover { background: #219a52; }
+    .btn-stop { background: #e67e22; color: #fff; border: none; }
+    .btn-stop:hover { background: #cf6d17; }
+    #moves { margin-top: 10px; font-size: 18px; }
+    #message { margin-top: 10px; font-size: 22px; color: #2ecc71; min-height: 30px; }
+    canvas { border: 1px solid #444; border-radius: 4px; display: block; margin: 0 auto; background: #0f3460; }
+</style>
+
+<h1>Towers of Hanoi</h1>
+
+<div class="controls">
+    <label for="discCount">Discs:</label>
+    <input type="number" id="discCount" value="5" min="1" max="12">
+    <button class="btn-start" onclick="startGame()">Start</button>
+    <button class="btn-stop" onclick="stopGame()">Stop</button>
+    <a href="{% url 'home' %}" class="btn" style="font-size:14px; padding:8px 16px;">Go Home</a>
+</div>
+
+<canvas id="gameCanvas" width="660" height="400"></canvas>
+<div id="moves">Moves: 0</div>
+<div id="message"></div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const COLORS = ['#e94560','#f39c12','#2ecc71','#3498db','#9b59b6','#1abc9c','#e67e22','#e74c3c','#fd79a8','#00cec9','#6c5ce7','#fdcb6e'];
+const PEG_WIDTH = 8;
+const BASE_Y = 360;
+const PEG_HEIGHT = 280;
+const MIN_DISC_WIDTH = 40;
+const MAX_DISC_WIDTH = 160;
+
+let pegs = [[], [], []];
+let numDiscs = 5;
+let moves = 0;
+let gameActive = false;
+let autoplayRunning = false;
+let autoplayMoves = [];
+let autoplayTimer = null;
+
+function pegX(i) {
+    return 110 + i * 220;
+}
+
+function discHeight() {
+    return Math.min(28, Math.floor(PEG_HEIGHT / (numDiscs + 1)));
+}
+
+function discWidth(discSize) {
+    return MIN_DISC_WIDTH + (discSize - 1) * ((MAX_DISC_WIDTH - MIN_DISC_WIDTH) / (numDiscs - 1 || 1));
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const dh = discHeight();
+
+    // Draw base
+    ctx.fillStyle = '#8B7355';
+    ctx.fillRect(30, BASE_Y, 600, 16);
+
+    // Draw pegs
+    for (let i = 0; i < 3; i++) {
+        ctx.fillStyle = '#8B7355';
+        ctx.fillRect(pegX(i) - PEG_WIDTH / 2, BASE_Y - PEG_HEIGHT, PEG_WIDTH, PEG_HEIGHT);
+
+        // Draw discs
+        for (let j = 0; j < pegs[i].length; j++) {
+            const disc = pegs[i][j];
+            const w = discWidth(disc);
+            const x = pegX(i) - w / 2;
+            const y = BASE_Y - (j + 1) * dh;
+
+            ctx.fillStyle = COLORS[(disc - 1) % COLORS.length];
+            ctx.beginPath();
+            ctx.roundRect(x, y, w, dh - 2, 6);
+            ctx.fill();
+        }
+    }
+
+    // Draw peg labels
+    ctx.fillStyle = '#aaa';
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    for (let i = 0; i < 3; i++) {
+        ctx.fillText('Peg ' + (i + 1), pegX(i), BASE_Y + 34);
+    }
+}
+
+// Generate moves for Tower of Hanoi solution
+function solveHanoi(n, from, to, aux) {
+    if (n === 0) return;
+    solveHanoi(n - 1, from, aux, to);
+    autoplayMoves.push([from, to]);
+    solveHanoi(n - 1, aux, to, from);
+}
+
+function executeNextMove() {
+    if (!autoplayRunning || autoplayMoves.length === 0) {
+        autoplayRunning = false;
+        if (pegs[2].length === numDiscs) {
+            gameActive = false;
+            const minMoves = Math.pow(2, numDiscs) - 1;
+            document.getElementById('message').textContent =
+                'Solved in ' + moves + ' moves! (Optimal: ' + minMoves + ')';
+        }
+        return;
+    }
+    const [from, to] = autoplayMoves.shift();
+    pegs[to].push(pegs[from].pop());
+    moves++;
+    document.getElementById('moves').textContent = 'Moves: ' + moves;
+    draw();
+    const delay = Math.max(50, 500 - numDiscs * 30);
+    autoplayTimer = setTimeout(executeNextMove, delay);
+}
+
+function startGame() {
+    stopGame();
+    numDiscs = parseInt(document.getElementById('discCount').value) || 5;
+    if (numDiscs < 1) numDiscs = 1;
+    if (numDiscs > 12) numDiscs = 12;
+    document.getElementById('discCount').value = numDiscs;
+
+    pegs = [[], [], []];
+    for (let i = numDiscs; i >= 1; i--) {
+        pegs[0].push(i);
+    }
+    moves = 0;
+    gameActive = true;
+    autoplayRunning = true;
+    document.getElementById('moves').textContent = 'Moves: 0';
+    document.getElementById('message').textContent = 'Auto-solving...';
+    draw();
+
+    // Generate solution and start autoplay
+    autoplayMoves = [];
+    solveHanoi(numDiscs, 0, 2, 1);
+    autoplayTimer = setTimeout(executeNextMove, 500);
+}
+
+function stopGame() {
+    autoplayRunning = false;
+    if (autoplayTimer) {
+        clearTimeout(autoplayTimer);
+        autoplayTimer = null;
+    }
+    autoplayMoves = [];
+    pegs = [[], [], []];
+    moves = 0;
+    gameActive = false;
+    document.getElementById('moves').textContent = 'Moves: 0';
+    document.getElementById('message').textContent = '';
+    draw();
+}
+
+// Initial draw
+draw();
+</script>
+{% endblock %}
