@@ -30,12 +30,12 @@ if _env_path.exists():
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4fi5wrh125b_$vlzzbb=@wa)$n!0@e-^qxt@y5^&=%^c-=s0#p'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-4fi5wrh125b_$vlzzbb=@wa)$n!0@e-^qxt@y5^&=%^c-=s0#p')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '').split(',') if h.strip()]
 
 
 # Application definition
@@ -127,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
