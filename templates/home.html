@@ -3,7 +3,9 @@
 {% block content %}
     <h1>Welcome to Wayne's World</h1>
     <p>Party on, {{ user.username }}!</p>
-    <a href="{% url 'level2' %}" class="btn">Test Application</a>
-    <a href="{% url 'towers' %}" class="btn" style="margin-left: 10px;">Towers</a>
-    <a href="{% url 'adder' %}" class="btn" style="margin-left: 10px;">Adder Mania</a>
+    <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+        <a href="{% url 'level2' %}" class="btn" style="width: 200px;">Test Application</a>
+        <a href="{% url 'towers' %}" class="btn" style="width: 200px;">Towers</a>
+        <a href="{% url 'adder' %}" class="btn" style="width: 200px;">Adder Mania</a>
+    </div>
 {% endblock %}

@@ -6,21 +6,22 @@
     .screen { display: none; }
     .screen.active { display: block; }
     #answer-input {
-        font-size: 32px; width: 120px; text-align: center; padding: 10px;
+        font-size: 28px; width: 100px; text-align: center; padding: 10px;
         border-radius: 8px; border: 2px solid #e94560; background: #0f3460; color: #eee;
     }
-    .problem { font-size: 48px; margin: 30px 0; }
-    .result-icon { font-size: 80px; }
+    .problem { font-size: 36px; margin: 20px 0; }
+    .result-icon { font-size: 60px; }
     .correct { color: #4caf50; }
     .wrong { color: #e94560; }
-    #feedback { min-height: 80px; margin: 10px 0; }
+    #feedback { min-height: 60px; margin: 10px 0; }
     .summary-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-    .summary-table th, .summary-table td { padding: 8px 12px; border-bottom: 1px solid #333; }
+    .summary-table th, .summary-table td { padding: 6px 8px; border-bottom: 1px solid #333; font-size: 14px; }
     .summary-table .correct-row td { color: #4caf50; }
     .summary-table .wrong-row td { color: #e94560; }
-    .stars { font-size: 28px; margin: 15px 0; }
-    .score-display { font-size: 36px; font-weight: bold; margin: 20px 0; }
-    .btn-group .btn { margin: 5px; }
+    .stars { font-size: 22px; margin: 15px 0; word-break: break-word; }
+    .score-display { font-size: 30px; font-weight: bold; margin: 15px 0; }
+    .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .btn-group .btn { margin: 0; }
 </style>
 
 <!-- Start Screen -->
