@@ -52,6 +52,8 @@
             <a href="{% url 'towers' %}">Towers</a>
             <a href="{% url 'adder' %}">Adder Mania</a>
             <a href="{% url 'adder_history' %}" class="sub-item">History</a>
+            <a href="{% url 'wordle' %}">Wordle</a>
+            <a href="{% url 'wordle_history' %}" class="sub-item">History</a>
             <a href="{% url 'account_settings' %}">Settings</a>
             {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
         </div>

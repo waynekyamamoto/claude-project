@@ -15,3 +15,17 @@ class AdderQuestion(models.Model):
     num2 = models.IntegerField()
     user_answer = models.IntegerField()
     correct = models.BooleanField()
+
+
+class WordleGame(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    word = models.CharField(max_length=5)
+    won = models.BooleanField()
+    attempts = models.IntegerField()
+    played_at = models.DateTimeField(auto_now_add=True)
+
+
+class WordleGuess(models.Model):
+    game = models.ForeignKey(WordleGame, on_delete=models.CASCADE, related_name='guesses')
+    guess_number = models.IntegerField()
+    word = models.CharField(max_length=5)

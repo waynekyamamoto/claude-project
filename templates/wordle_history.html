@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Wordle History - Wayne's World{% endblock %}
+{% block content %}
+<style>
+    .container { max-width: 700px; }
+    .history-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .history-table th, .history-table td { padding: 8px 6px; border-bottom: 1px solid #333; text-align: center; font-size: 14px; }
+    .history-table th { color: #e94560; }
+    .emoji-grid { display: inline-flex; flex-direction: column; gap: 2px; }
+    .grid-row { display: flex; gap: 2px; }
+    .grid-cell { width: 16px; height: 16px; border-radius: 2px; display: inline-block; }
+    .grid-cell.correct { background: #538d4e; }
+    .grid-cell.present { background: #b59f3b; }
+    .grid-cell.absent { background: #3a3a3c; }
+</style>
+<h1>Wordle History</h1>
+{% if games %}
+<table class="history-table">
+    <thead><tr><th>Date</th><th>Word</th><th>Result</th><th>Attempts</th><th>Grid</th></tr></thead>
+    <tbody>
+    {% for game in games %}
+        <tr>
+            <td>{{ game.played_at|date:"M d, Y H:i" }}</td>
+            <td style="text-transform: uppercase; font-weight: bold;">{{ game.word }}</td>
+            <td>{% if game.won %}<span style="color: #538d4e;">Won</span>{% else %}<span style="color: #e94560;">Lost</span>{% endif %}</td>
+            <td>{{ game.attempts }} / 6</td>
+            <td>
+                <div class="emoji-grid">
+                {% for guess in game.guesses.all|dictsort:"guess_number" %}
+                    <span data-guess="{{ guess.word }}" data-target="{{ game.word }}" class="grid-row"></span>
+                {% endfor %}
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script>
+function getStatuses(guess, target) {
+    const result = Array(5).fill('absent');
+    const tArr = target.split('');
+    const gArr = guess.split('');
+    for (let i = 0; i < 5; i++) {
+        if (gArr[i] === tArr[i]) { result[i] = 'correct'; tArr[i] = null; gArr[i] = null; }
+    }
+    for (let i = 0; i < 5; i++) {
+        if (gArr[i] === null) continue;
+        const idx = tArr.indexOf(gArr[i]);
+        if (idx !== -1) { result[i] = 'present'; tArr[idx] = null; }
+    }
+    return result;
+}
+document.querySelectorAll('.grid-row').forEach(el => {
+    const guess = el.dataset.guess;
+    const target = el.dataset.target;
+    const statuses = getStatuses(guess, target);
+    el.innerHTML = statuses.map(s => '<span class="grid-cell ' + s + '"></span>').join('');
+});
+</script>
+{% else %}
+<p>No games played yet.</p>
+{% endif %}
+<div style="margin-top: 20px;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+        <a href="{% url 'wordle' %}" class="btn">Play</a>
+        <a href="{% url 'home' %}" class="btn" style="background: #16213e; border: 1px solid #e94560;">Go Home</a>
+    </div>
+</div>
+{% endblock %}
