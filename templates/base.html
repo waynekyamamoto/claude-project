@@ -23,6 +23,8 @@
         .nav-menu a { display: block; padding: 12px 20px; color: #eee; text-decoration: none; margin: 0; border-bottom: 1px solid #333; }
         .nav-menu a:last-child { border-bottom: none; }
         .nav-menu a:hover { background: #0f3460; color: #e94560; }
+        .nav-menu a.sub-item { padding-left: 36px; font-size: 13px; color: #aaa; }
+        .nav-menu a.sub-item:hover { color: #e94560; }
         @media (max-width: 480px) {
             .container { margin: 20px auto; padding: 10px; }
             nav span { font-size: 14px; }
@@ -49,7 +51,7 @@
             <a href="{% url 'level2' %}">Test Application</a>
             <a href="{% url 'towers' %}">Towers</a>
             <a href="{% url 'adder' %}">Adder Mania</a>
-            <a href="{% url 'adder_history' %}">Adder History</a>
+            <a href="{% url 'adder_history' %}" class="sub-item">History</a>
             <a href="{% url 'account_settings' %}">Settings</a>
             {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
         </div>
