@@ -3,18 +3,18 @@
 {% block content %}
 <style>
     .container { max-width: 800px !important; }
-    .controls { margin-bottom: 15px; }
-    .controls label { margin-right: 8px; }
-    .controls input[type=number], .controls button { padding: 8px 16px; font-size: 14px; border-radius: 4px; border: 1px solid #444; }
-    .controls input[type=number] { background: #0f3460; color: #eee; width: 60px; text-align: center; }
-    .controls button { cursor: pointer; margin-left: 6px; }
+    .controls { margin-bottom: 15px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; }
+    .controls label { margin-right: 2px; }
+    .controls input[type=number], .controls button { padding: 8px 12px; font-size: 14px; border-radius: 4px; border: 1px solid #444; }
+    .controls input[type=number] { background: #0f3460; color: #eee; width: 50px; text-align: center; }
+    .controls button { cursor: pointer; }
     .btn-start { background: #27ae60; color: #fff; border: none; }
     .btn-start:hover { background: #219a52; }
     .btn-stop { background: #e67e22; color: #fff; border: none; }
     .btn-stop:hover { background: #cf6d17; }
     #moves { margin-top: 10px; font-size: 18px; }
-    #message { margin-top: 10px; font-size: 22px; color: #2ecc71; min-height: 30px; }
-    canvas { border: 1px solid #444; border-radius: 4px; display: block; margin: 0 auto; background: #0f3460; }
+    #message { margin-top: 10px; font-size: 20px; color: #2ecc71; min-height: 30px; }
+    canvas { border: 1px solid #444; border-radius: 4px; display: block; margin: 0 auto; background: #0f3460; width: 100%; max-width: 660px; }
 </style>
 
 <h1>Towers of Hanoi</h1>
@@ -35,11 +35,10 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const COLORS = ['#e94560','#f39c12','#2ecc71','#3498db','#9b59b6','#1abc9c','#e67e22','#e74c3c','#fd79a8','#00cec9','#6c5ce7','#fdcb6e'];
-const PEG_WIDTH = 8;
-const BASE_Y = 360;
-const PEG_HEIGHT = 280;
-const MIN_DISC_WIDTH = 40;
-const MAX_DISC_WIDTH = 160;
+
+// Reference dimensions (design at 660x400, scale to actual canvas size)
+const REF_W = 660;
+const REF_H = 400;
 
 let pegs = [[], [], []];
 let numDiscs = 5;
@@ -49,51 +48,64 @@ let autoplayRunning = false;
 let autoplayMoves = [];
 let autoplayTimer = null;
 
+function resizeCanvas() {
+    const displayWidth = canvas.clientWidth;
+    const displayHeight = Math.round(displayWidth * (REF_H / REF_W));
+    canvas.width = displayWidth;
+    canvas.height = displayHeight;
+}
+
+function S(val) { return val * (canvas.width / REF_W); }
+
 function pegX(i) {
-    return 110 + i * 220;
+    return S(110 + i * 220);
 }
 
 function discHeight() {
-    return Math.min(28, Math.floor(PEG_HEIGHT / (numDiscs + 1)));
+    return Math.min(S(28), Math.floor(S(280) / (numDiscs + 1)));
 }
 
 function discWidth(discSize) {
-    return MIN_DISC_WIDTH + (discSize - 1) * ((MAX_DISC_WIDTH - MIN_DISC_WIDTH) / (numDiscs - 1 || 1));
+    return S(40) + (discSize - 1) * ((S(160) - S(40)) / (numDiscs - 1 || 1));
 }
 
 function draw() {
+    resizeCanvas();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const dh = discHeight();
+    const baseY = S(360);
+    const pegHeight = S(280);
+    const pegWidth = S(8);
 
     // Draw base
     ctx.fillStyle = '#8B7355';
-    ctx.fillRect(30, BASE_Y, 600, 16);
+    ctx.fillRect(S(30), baseY, S(600), S(16));
 
     // Draw pegs
     for (let i = 0; i < 3; i++) {
         ctx.fillStyle = '#8B7355';
-        ctx.fillRect(pegX(i) - PEG_WIDTH / 2, BASE_Y - PEG_HEIGHT, PEG_WIDTH, PEG_HEIGHT);
+        ctx.fillRect(pegX(i) - pegWidth / 2, baseY - pegHeight, pegWidth, pegHeight);
 
         // Draw discs
         for (let j = 0; j < pegs[i].length; j++) {
             const disc = pegs[i][j];
             const w = discWidth(disc);
             const x = pegX(i) - w / 2;
-            const y = BASE_Y - (j + 1) * dh;
+            const y = baseY - (j + 1) * dh;
 
             ctx.fillStyle = COLORS[(disc - 1) % COLORS.length];
             ctx.beginPath();
-            ctx.roundRect(x, y, w, dh - 2, 6);
+            ctx.roundRect(x, y, w, dh - 2, S(6));
             ctx.fill();
         }
     }
 
     // Draw peg labels
     ctx.fillStyle = '#aaa';
-    ctx.font = '14px Arial';
+    ctx.font = S(14) + 'px Arial';
     ctx.textAlign = 'center';
     for (let i = 0; i < 3; i++) {
-        ctx.fillText('Peg ' + (i + 1), pegX(i), BASE_Y + 34);
+        ctx.fillText('Peg ' + (i + 1), pegX(i), baseY + S(34));
     }
 }
 
@@ -164,7 +176,9 @@ function stopGame() {
     draw();
 }
 
-// Initial draw
+// Initial draw and resize handler
+resizeCanvas();
 draw();
+window.addEventListener('resize', draw);
 </script>
 {% endblock %}
