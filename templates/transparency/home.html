@@ -3,7 +3,7 @@
 {% block ta_content %}
 
 <!-- Hero -->
-<div class="ta-hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #D81D3E 100%); color: #fff; padding: 60px 4vw; overflow: hidden;">
+<div class="ta-hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #D81D3E 100%); color: #fff; padding: 60px 4vw 0; overflow: hidden;">
     <div class="ta-hero-inner">
         <div class="ta-hero-text">
             <h1 class="ta-hero-title">Transparent, model-driven ratings for private credit.</h1>
@@ -24,20 +24,22 @@
         align-items: center;
         gap: 40px;
     }
-    .ta-hero-text { flex: 1; }
+    .ta-hero-text { flex: 1; padding-bottom: 60px; }
     .ta-hero-title { font-size: 40px; font-weight: 700; margin-bottom: 16px; line-height: 1.2; }
     .ta-hero-desc { font-size: 17px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6; }
     .ta-hero-btn { padding: 16px 36px; font-size: 16px; }
-    .ta-hero-img { flex: 0 0 auto; text-align: center; }
-    .ta-hero-img img { max-width: 380px; width: 100%; }
+    .ta-hero-img { flex: 0 0 auto; align-self: flex-end; }
+    .ta-hero-img img { max-width: 380px; width: 100%; display: block; }
 
     @media (max-width: 767px) {
-        .ta-hero { padding: 36px 5vw !important; }
-        .ta-hero-inner { flex-direction: column; gap: 24px; }
+        .ta-hero { padding: 36px 5vw 0 !important; }
+        .ta-hero-inner { flex-direction: column; gap: 0; }
+        .ta-hero-text { padding-bottom: 30px; }
         .ta-hero-title { font-size: 28px; }
         .ta-hero-desc { font-size: 14px; margin-bottom: 20px; }
         .ta-hero-btn { padding: 12px 24px; font-size: 14px; }
-        .ta-hero-img img { max-width: 200px; }
+        .ta-hero-img { width: 100%; }
+        .ta-hero-img img { max-width: 100%; }
         .ta-section-title { font-size: 22px !important; }
         .ta-why-grid { grid-template-columns: 1fr !important; }
     }
