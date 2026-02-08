@@ -10,8 +10,8 @@
             <p style="font-size: 17px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6;">Transparency Analytics is a new company dedicated to measuring risk and delivering transparent, technology-driven solutions for clients in the evolving world of private credit.</p>
             <a href="{% url 'transparency_contact' %}" class="ta-btn" style="padding: 16px 36px; font-size: 16px;">Get started</a>
         </div>
-        <div style="text-align: center;">
-            <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/1824258a-5519-4c55-be03-68758b03b438/two-city-logo.png" alt="Transparency Analytics" style="max-width: 400px; margin: 0 auto;">
+        <div class="ta-hero-img" style="text-align: center;">
+            <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/1824258a-5519-4c55-be03-68758b03b438/two-city-logo.png" alt="Transparency Analytics" style="max-width: 400px; width: 100%; margin: 0 auto;">
         </div>
     </div>
 </div>
@@ -19,10 +19,12 @@
     .ta-section-title { font-size: 28px; }
     @media (max-width: 767px) {
         .ta-hero { padding: 40px 5vw !important; }
-        .ta-hero-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
-        .ta-hero-title { font-size: 26px !important; }
+        .ta-hero-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+        .ta-hero-title { font-size: 24px !important; }
         .ta-hero .ta-btn { padding: 12px 24px !important; font-size: 14px !important; }
-        .ta-hero p { font-size: 15px !important; }
+        .ta-hero p { font-size: 14px !important; margin-bottom: 20px !important; }
+        .ta-hero-img { order: -1; }
+        .ta-hero-img img { max-width: 220px !important; margin: 0 auto; }
         .ta-section-title { font-size: 22px !important; }
         .ta-why-grid { grid-template-columns: 1fr !important; }
     }
