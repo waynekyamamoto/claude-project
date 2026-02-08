@@ -1,0 +1,31 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}Submit Request — Transparency Analytics{% endblock %}
+{% block ta_content %}
+<div class="ta-container" style="max-width: 700px;">
+    <h2 class="ta-h2">Submit Rating Request</h2>
+    <p class="ta-body ta-mb-30">Provide details about the company you'd like us to rate.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="ta-form-group">
+            <label for="id_company_name">Company Name</label>
+            <input type="text" name="company_name" id="id_company_name" value="{{ form.company_name.value|default:'' }}" required>
+            {% if form.company_name.errors %}<p class="ta-text-red ta-small ta-mt-8">{{ form.company_name.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="ta-form-group">
+            <label for="id_description">Description &amp; Rationale</label>
+            <textarea name="description" id="id_description" required placeholder="Describe the company, the type of rating you're seeking, and any relevant context...">{{ form.description.value|default:'' }}</textarea>
+            {% if form.description.errors %}<p class="ta-text-red ta-small ta-mt-8">{{ form.description.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="ta-form-group">
+            <label for="id_documents">Supporting Documents (optional)</label>
+            <input type="file" name="documents" id="id_documents" multiple style="padding: 10px; border: 1px dashed #ccc; border-radius: 6px; background: #fafafa;">
+            <p class="ta-small ta-mt-8" style="color: #999;">You may upload financial statements, prospectuses, or other relevant files.</p>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button type="submit" class="ta-btn">Submit Request</button>
+            <a href="{% url 'transparency_portal' %}" class="ta-btn ta-btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

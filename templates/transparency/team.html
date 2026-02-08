@@ -1,0 +1,40 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}Team — Transparency Analytics{% endblock %}
+{% block ta_content %}
+<div class="ta-container">
+    <h2 class="ta-h2 ta-text-center ta-mb-30" style="font-size: 28px;">Built for trust, backed by experts</h2>
+    <div class="ta-team-grid">
+        {% for member in team %}
+        <div class="ta-team-card">
+            {% if member.photo_url %}
+            <div class="ta-team-img-wrap">
+                <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="ta-team-img">
+                <div class="ta-team-overlay">
+                    <h4>{{ member.name }}</h4>
+                    <p>{{ member.title }}</p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="ta-team-body">
+                {% if not member.photo_url %}
+                <h4 class="ta-h4 ta-mb-4">{{ member.name }}</h4>
+                <p class="ta-text-red ta-small ta-mb-8" style="text-transform: uppercase; letter-spacing: 0.5px;">{{ member.title }}</p>
+                {% endif %}
+                <p class="ta-small" style="line-height: 1.5;">{{ member.bio }}</p>
+                {% if member.linkedin_url %}
+                <a href="{{ member.linkedin_url }}" target="_blank" class="ta-team-linkedin">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="ta-footer">
+    <p style="font-size: 14px; opacity: 0.7;">917-268-0710</p>
+    <p style="font-size: 14px; opacity: 0.7;">25 Broadway, New York, NY, 10004</p>
+    <p style="font-size: 12px; opacity: 0.5; margin-top: 12px;">Transparency Analytics is not registered as an NRSRO with the Securities and Exchange Commission.</p>
+</div>
+{% endblock %}

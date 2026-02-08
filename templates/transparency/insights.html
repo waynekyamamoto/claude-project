@@ -1,0 +1,25 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}Insights — Transparency Analytics{% endblock %}
+{% block ta_content %}
+<div class="ta-container">
+    <h2 class="ta-h2" style="font-size: 28px;">Insights &amp; Research</h2>
+    <p class="ta-body ta-mb-30">Latest analysis and commentary from our team.</p>
+
+    <div class="ta-insight-grid">
+        {% for insight in insights %}
+        <a href="{% if insight.external_url %}{{ insight.external_url }}{% else %}{% url 'transparency_insight_detail' slug=insight.slug %}{% endif %}" class="ta-insight-card" {% if insight.external_url %}target="_blank"{% endif %}>
+            <p class="ta-small ta-mb-8" style="color: #D81D3E; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">{{ insight.date|date:"m/d/y" }}</p>
+            <h3 class="ta-h4 ta-mb-8">{{ insight.title }}</h3>
+            <p class="ta-small ta-mb-12" style="color: #999;">{{ insight.author }}</p>
+            <p class="ta-body">{{ insight.description }}</p>
+        </a>
+        {% empty %}
+        <p class="ta-body">No insights available yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="ta-footer">
+    <p style="font-size: 12px; opacity: 0.5;">Transparency Analytics is not registered as an NRSRO with the Securities and Exchange Commission.</p>
+</div>
+{% endblock %}

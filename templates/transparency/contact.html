@@ -1,0 +1,72 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}Contact — Transparency Analytics{% endblock %}
+{% block ta_content %}
+<div class="ta-container">
+    <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Contact Us</h2>
+    <p class="ta-body ta-text-center ta-mb-30">If you're interested in collaborating, please provide your information, and we will contact you soon.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+        <div>
+            {% if success %}
+            <div class="ta-success">Thank you!</div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="ta-form-group">
+                    <label for="id_name">Name</label>
+                    <input type="text" name="name" id="id_name" value="{{ form.name.value|default:'' }}" required>
+                    {% if form.name.errors %}<p class="ta-text-red ta-small ta-mt-8">{{ form.name.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="ta-form-group">
+                    <label for="id_email">Email</label>
+                    <input type="email" name="email" id="id_email" value="{{ form.email.value|default:'' }}" required>
+                    {% if form.email.errors %}<p class="ta-text-red ta-small ta-mt-8">{{ form.email.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="ta-form-group">
+                    <label for="id_message">Message</label>
+                    <textarea name="message" id="id_message" required>{{ form.message.value|default:'' }}</textarea>
+                    {% if form.message.errors %}<p class="ta-text-red ta-small ta-mt-8">{{ form.message.errors.0 }}</p>{% endif %}
+                </div>
+                <button type="submit" class="ta-btn">Send</button>
+            </form>
+        </div>
+
+        <div>
+            <div class="ta-card ta-mb-16">
+                <h4 class="ta-h4 ta-mb-12">Get In Touch</h4>
+                <p class="ta-body" style="line-height: 2;">
+                    Email: info@transparency-analytics.com<br>
+                    Phone: (917) 268-0710
+                </p>
+            </div>
+            <div class="ta-card ta-mb-16">
+                <h4 class="ta-h4 ta-mb-12">New York Office</h4>
+                <p class="ta-body" style="line-height: 1.8;">
+                    25 Broadway<br>
+                    New York, NY 10004
+                </p>
+            </div>
+            <div class="ta-card">
+                <h4 class="ta-h4 ta-mb-12">San Francisco Office</h4>
+                <p class="ta-body" style="line-height: 1.8;">
+                    945 Market St<br>
+                    San Francisco, CA 94103
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media (max-width: 767px) {
+        .ta-container > div[style*="grid-template-columns: 1fr 1fr"] {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+
+<div class="ta-footer">
+    <p style="font-size: 12px; opacity: 0.5;">Transparency Analytics is not registered as an NRSRO with the Securities and Exchange Commission.</p>
+</div>
+{% endblock %}

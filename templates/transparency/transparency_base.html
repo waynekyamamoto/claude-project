@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block ta_title %}Transparency Analytics{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === Reset & Base === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Lexend', Arial, sans-serif;
+            background: #fff;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+        ul { list-style: none; }
+
+        /* === Site Header === */
+        .ta-header {
+            background: #fff;
+            padding: 16px 4vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .ta-header-logo img {
+            max-height: 29px;
+        }
+        .ta-header-right {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .ta-header-nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .ta-header-nav a {
+            display: inline-block;
+            padding: 8px 18px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            letter-spacing: 0.2px;
+        }
+        .ta-header-nav a:hover,
+        .ta-header-nav a.active {
+            color: #D81D3E;
+        }
+        .ta-ww-link {
+            display: inline-block;
+            padding: 6px 14px;
+            margin-left: 12px;
+            background: #16213e;
+            color: #e94560;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .ta-ww-link:hover { background: #0f3460; }
+        .ta-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            padding: 4px 8px;
+        }
+        .ta-mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            z-index: 99;
+        }
+        .ta-mobile-menu.open { display: block; }
+        .ta-mobile-menu a {
+            display: block;
+            padding: 14px 4vw;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .ta-mobile-menu a:hover { color: #D81D3E; background: #fafafa; }
+        .ta-mobile-menu a.ta-ww-mobile {
+            background: #16213e;
+            color: #e94560;
+            border-bottom: none;
+        }
+
+        @media (max-width: 767px) {
+            .ta-header-nav { display: none; }
+            .ta-ww-link { display: none; }
+            .ta-hamburger { display: block; }
+            .ta-header-logo img { max-height: 26px; }
+            .ta-header { padding: 12px 6vw; }
+        }
+
+        /* === Layout === */
+        .ta-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 4vw;
+        }
+        @media (max-width: 767px) {
+            .ta-container { padding: 40px 6vw; }
+        }
+
+        /* === Typography === */
+        .ta-h1 { font-size: 28px; font-weight: 700; line-height: 1.2; color: #333; }
+        .ta-h2 { font-size: 24px; font-weight: 700; line-height: 1.2; color: #333; margin-bottom: 12px; }
+        .ta-h3 { font-size: 20px; font-weight: 600; line-height: 1.3; color: #333; }
+        .ta-h4 { font-size: 16px; font-weight: 600; line-height: 1.3; color: #333; }
+        .ta-body { font-size: 15px; font-weight: 400; line-height: 1.6; color: #666; }
+        .ta-small { font-size: 13px; font-weight: 400; color: #666; }
+
+        /* === Buttons === */
+        .ta-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #D81D3E;
+            color: #fff;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Lexend', Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease;
+        }
+        .ta-btn:hover { background-color: #B01A35; color: #fff; }
+        .ta-btn-outline {
+            background: transparent;
+            border: 2px solid #D81D3E;
+            color: #D81D3E;
+        }
+        .ta-btn-outline:hover { background: #D81D3E; color: #fff; }
+        .ta-btn-sm { padding: 8px 16px; font-size: 12px; }
+
+        /* === Cards === */
+        .ta-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .ta-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .ta-card-lift:hover { transform: translateY(-5px); }
+
+        /* === Tables === */
+        .ta-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .ta-table th {
+            background: #EC1F43;
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .ta-table td { padding: 12px 16px; border-bottom: 1px solid #eee; font-size: 14px; color: #333; }
+        .ta-table tr:nth-child(even) { background: #fdf2f4; }
+        .ta-table tr:hover { background: #fce4e8; }
+
+        /* === Accordion === */
+        .ta-accordion {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .ta-accordion-header {
+            padding: 20px;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+        .ta-accordion-header:hover { background: #fafafa; }
+        .ta-accordion-body {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .ta-accordion-body.open { max-height: 500px; padding: 0 20px 20px; }
+        .ta-accordion-icon {
+            font-size: 20px;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            color: #999;
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+        .ta-accordion-icon.open { transform: rotate(45deg); }
+
+        /* === Team === */
+        .ta-team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (max-width: 1024px) { .ta-team-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .ta-team-grid { grid-template-columns: 1fr; max-width: 350px; } }
+        .ta-team-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .ta-team-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .ta-team-img-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+        .ta-team-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .ta-team-card:hover .ta-team-img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+        .ta-team-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.5);
+            padding: 12px 12px 10px;
+        }
+        .ta-team-overlay h4 { color: #fff; font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+        .ta-team-overlay p { color: rgba(255,255,255,0.8); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .ta-team-body { padding: 16px; }
+        .ta-team-linkedin {
+            display: inline-block;
+            margin-top: 8px;
+        }
+        .ta-team-linkedin img {
+            width: 20px;
+            height: 20px;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .ta-team-linkedin:hover img { opacity: 1; }
+
+        /* === Methodology Cards === */
+        .ta-meth-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .ta-meth-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .ta-meth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* === Benefits icons === */
+        .ta-benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 900px) { .ta-benefit-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 600px) { .ta-benefit-grid { grid-template-columns: repeat(2, 1fr); } }
+        .ta-benefit-card {
+            text-align: center;
+            padding: 24px 16px;
+        }
+        .ta-benefit-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+        }
+
+        /* === Badges === */
+        .ta-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .ta-badge-pending { background: #fff3cd; color: #856404; }
+        .ta-badge-in_review { background: #cce5ff; color: #004085; }
+        .ta-badge-completed { background: #d4edda; color: #155724; }
+        .ta-badge-rejected { background: #f8d7da; color: #721c24; }
+
+        /* === Forms === */
+        .ta-form-group { margin-bottom: 18px; text-align: left; }
+        .ta-form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; color: #333; }
+        .ta-form-group input,
+        .ta-form-group textarea,
+        .ta-form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Lexend', Arial, sans-serif;
+            background: #fff;
+            color: #333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .ta-form-group textarea { min-height: 120px; resize: vertical; }
+        .ta-form-group input:focus,
+        .ta-form-group textarea:focus {
+            outline: none;
+            border-color: #D81D3E;
+            box-shadow: 0 0 0 3px rgba(216,29,62,0.1);
+        }
+
+        /* === Messages === */
+        .ta-success { background: #d4edda; color: #155724; padding: 14px 20px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; }
+        .ta-msg { padding: 14px 18px; border-radius: 8px; margin-bottom: 10px; font-size: 14px; }
+        .ta-msg-own { background: #fdf2f4; border-left: 3px solid #D81D3E; }
+        .ta-msg-other { background: #f0f4ff; border-left: 3px solid #4a90d9; }
+
+        /* === Footer === */
+        .ta-footer {
+            background: #1a1a2e;
+            padding: 40px 4vw;
+            text-align: center;
+            color: #fff;
+        }
+        .ta-footer p { margin-bottom: 6px; }
+
+        /* === Sections === */
+        .ta-section-light { background: #f9f9f9; }
+
+        /* === Utility === */
+        .ta-text-center { text-align: center; }
+        .ta-text-red { color: #D81D3E; }
+        .ta-mt-8 { margin-top: 8px; }
+        .ta-mt-12 { margin-top: 12px; }
+        .ta-mt-16 { margin-top: 16px; }
+        .ta-mt-24 { margin-top: 24px; }
+        .ta-mt-30 { margin-top: 30px; }
+        .ta-mt-40 { margin-top: 40px; }
+        .ta-mb-4 { margin-bottom: 4px; }
+        .ta-mb-8 { margin-bottom: 8px; }
+        .ta-mb-12 { margin-bottom: 12px; }
+        .ta-mb-16 { margin-bottom: 16px; }
+        .ta-mb-24 { margin-bottom: 24px; }
+        .ta-mb-30 { margin-bottom: 30px; }
+
+        /* === Insight cards === */
+        .ta-insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .ta-insight-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            color: #333;
+        }
+        .ta-insight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* === Featured report === */
+        .ta-featured {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 2px solid #D81D3E;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+        }
+        .ta-featured-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .ta-featured-body {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (max-width: 700px) {
+            .ta-featured { grid-template-columns: 1fr; }
+            .ta-featured-body { padding: 24px; }
+        }
+
+        /* === Two-col layout === */
+        .ta-two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        @media (max-width: 700px) {
+            .ta-two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Site Header -->
+    <header class="ta-header">
+        <a href="{% url 'transparency_home' %}" class="ta-header-logo">
+            <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/d37983de-5eb1-47dc-8618-9ad0168aed3a/logo.png?format=1500w" alt="Transparency Analytics">
+        </a>
+        <div class="ta-header-right">
+            <nav class="ta-header-nav">
+                <a href="{% url 'transparency_ratings' %}" class="{% if request.resolver_match.url_name == 'transparency_ratings' %}active{% endif %}">Recent Ratings</a>
+                <a href="{% url 'transparency_team' %}" class="{% if request.resolver_match.url_name == 'transparency_team' %}active{% endif %}">Team</a>
+                <a href="{% url 'transparency_insights' %}" class="{% if request.resolver_match.url_name == 'transparency_insights' or request.resolver_match.url_name == 'transparency_insight_detail' %}active{% endif %}">Insights</a>
+                <a href="{% url 'transparency_contact' %}" class="{% if request.resolver_match.url_name == 'transparency_contact' %}active{% endif %}">Contact</a>
+                <a href="{% url 'transparency_portal' %}" class="{% if 'portal' in request.resolver_match.url_name or 'submit' in request.resolver_match.url_name or 'request_detail' in request.resolver_match.url_name %}active{% endif %}">Portal</a>
+            </nav>
+            {% if user.is_authenticated %}
+            <a href="{% url 'home' %}" class="ta-ww-link">Wayne's World</a>
+            {% endif %}
+        </div>
+        <button class="ta-hamburger" onclick="document.getElementById('ta-mobile-menu').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+        <div id="ta-mobile-menu" class="ta-mobile-menu">
+            <a href="{% url 'transparency_ratings' %}">Recent Ratings</a>
+            <a href="{% url 'transparency_team' %}">Team</a>
+            <a href="{% url 'transparency_insights' %}">Insights</a>
+            <a href="{% url 'transparency_contact' %}">Contact</a>
+            <a href="{% url 'transparency_portal' %}">Portal</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'home' %}" class="ta-ww-mobile">Wayne's World &rarr;</a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% block ta_content %}{% endblock %}
+
+    <script>
+    document.addEventListener('click', function(e) {
+        var menu = document.getElementById('ta-mobile-menu');
+        if (menu && !e.target.closest('.ta-hamburger') && !e.target.closest('.ta-mobile-menu')) {
+            menu.classList.remove('open');
+        }
+    });
+    function toggleAccordion(header) {
+        var body = header.nextElementSibling;
+        var icon = header.querySelector('.ta-accordion-icon');
+        body.classList.toggle('open');
+        icon.classList.toggle('open');
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}{{ rating_request.company_name }} — Transparency Analytics{% endblock %}
+{% block ta_content %}
+<div class="ta-container" style="max-width: 800px;">
+    <!-- Header -->
+    <div style="margin-bottom: 30px;">
+        <a href="{% url 'transparency_portal' %}" class="ta-text-red ta-small" style="text-decoration: none; font-weight: 500;">&larr; Back to Portal</a>
+        <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 12px; margin-top: 12px;">
+            <div>
+                <h2 class="ta-h2" style="margin-bottom: 4px;">{{ rating_request.company_name }}</h2>
+                <p class="ta-small" style="color: #999;">Submitted {{ rating_request.created_at|date:"M d, Y" }}</p>
+            </div>
+            <span class="ta-badge ta-badge-{{ rating_request.status }}" style="font-size: 14px; padding: 6px 16px;">{{ rating_request.get_status_display }}</span>
+        </div>
+    </div>
+
+    <!-- Description -->
+    <div class="ta-card ta-mb-24">
+        <h4 class="ta-h4 ta-mb-8">Description</h4>
+        <p class="ta-body" style="white-space: pre-wrap;">{{ rating_request.description }}</p>
+    </div>
+
+    <!-- Documents -->
+    <div class="ta-card ta-mb-24">
+        <h4 class="ta-h4 ta-mb-12">Documents</h4>
+        {% if rating_request.documents.all %}
+        <ul style="list-style: none; padding: 0;">
+            {% for doc in rating_request.documents.all %}
+            <li style="padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                <span class="ta-body">{{ doc.filename }}</span>
+                <a href="{{ doc.file.url }}" class="ta-text-red ta-small" style="text-decoration: none; font-weight: 500;">Download</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="ta-body" style="color: #999;">No documents uploaded.</p>
+        {% endif %}
+    </div>
+
+    <!-- Messages -->
+    <div class="ta-card">
+        <h4 class="ta-h4 ta-mb-16">Messages</h4>
+
+        {% for msg in rating_request.messages.all %}
+        <div class="ta-msg {% if msg.user == request.user %}ta-msg-own{% else %}ta-msg-other{% endif %}">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <strong class="ta-small">{{ msg.user.username }}</strong>
+                <span class="ta-small" style="color: #999;">{{ msg.created_at|date:"M d, Y H:i" }}</span>
+            </div>
+            <p class="ta-body" style="white-space: pre-wrap;">{{ msg.message }}</p>
+        </div>
+        {% empty %}
+        <p class="ta-body ta-mb-16" style="color: #999;">No messages yet. Start the conversation below.</p>
+        {% endfor %}
+
+        <form method="post" style="margin-top: 16px;">
+            {% csrf_token %}
+            <div class="ta-form-group" style="margin-bottom: 12px;">
+                <textarea name="message" required placeholder="Type your message..." style="min-height: 80px;"></textarea>
+            </div>
+            <button type="submit" class="ta-btn ta-btn-sm">Send Message</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -6,10 +6,14 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ContactForm, RatingRequestForm, RatingRequestMessageForm
 import random
 
-from .models import AdderGame, AdderQuestion, WordleGame, WordleGuess
+from .models import (
+    AdderGame, AdderQuestion, WordleGame, WordleGuess,
+    CreditRating, Insight, TeamMember, Methodology, FAQItem,
+    RatingRequest, RatingRequestDocument,
+)
 
 WORDLE_ANSWERS = [
     "about","above","abuse","actor","acute","admit","adopt","adult","after","again",
@@ -214,3 +218,102 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+# --- Transparency Analytics Views ---
+
+def transparency_home(request):
+    team = TeamMember.objects.all()
+    methodologies = Methodology.objects.all()
+    faqs = FAQItem.objects.all()
+    return render(request, 'transparency/home.html', {
+        'team': team,
+        'methodologies': methodologies,
+        'faqs': faqs,
+    })
+
+
+def transparency_team(request):
+    team = TeamMember.objects.all()
+    return render(request, 'transparency/team.html', {'team': team})
+
+
+def transparency_ratings(request):
+    current = CreditRating.objects.filter(is_previous=False)
+    previous = CreditRating.objects.filter(is_previous=True)
+    return render(request, 'transparency/ratings.html', {
+        'current_ratings': current,
+        'previous_ratings': previous,
+    })
+
+
+def transparency_insights(request):
+    insights = Insight.objects.all()
+    return render(request, 'transparency/insights.html', {'insights': insights})
+
+
+def transparency_insight_detail(request, slug):
+    from django.shortcuts import get_object_or_404
+    insight = get_object_or_404(Insight, slug=slug)
+    if insight.external_url:
+        return redirect(insight.external_url)
+    return render(request, 'transparency/insight_detail.html', {'insight': insight})
+
+
+def transparency_contact(request):
+    success = False
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            success = True
+            form = ContactForm()
+    else:
+        form = ContactForm()
+    return render(request, 'transparency/contact.html', {'form': form, 'success': success})
+
+
+@login_required
+def transparency_portal(request):
+    requests_list = RatingRequest.objects.filter(user=request.user)
+    return render(request, 'transparency/portal.html', {'requests': requests_list})
+
+
+@login_required
+def transparency_submit(request):
+    if request.method == 'POST':
+        form = RatingRequestForm(request.POST)
+        if form.is_valid():
+            rating_request = form.save(commit=False)
+            rating_request.user = request.user
+            rating_request.save()
+            for f in request.FILES.getlist('documents'):
+                RatingRequestDocument.objects.create(
+                    request=rating_request,
+                    filename=f.name,
+                    file=f,
+                )
+            return redirect('transparency_request_detail', pk=rating_request.pk)
+    else:
+        form = RatingRequestForm()
+    return render(request, 'transparency/submit.html', {'form': form})
+
+
+@login_required
+def transparency_request_detail(request, pk):
+    from django.shortcuts import get_object_or_404
+    rating_request = get_object_or_404(RatingRequest, pk=pk, user=request.user)
+    if request.method == 'POST':
+        msg_form = RatingRequestMessageForm(request.POST)
+        if msg_form.is_valid():
+            msg = msg_form.save(commit=False)
+            msg.request = rating_request
+            msg.user = request.user
+            msg.save()
+            return redirect('transparency_request_detail', pk=pk)
+    else:
+        msg_form = RatingRequestMessageForm()
+    return render(request, 'transparency/request_detail.html', {
+        'rating_request': rating_request,
+        'msg_form': msg_form,
+    })

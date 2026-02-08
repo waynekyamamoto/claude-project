@@ -1,0 +1,45 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}Portal — Transparency Analytics{% endblock %}
+{% block ta_content %}
+<div class="ta-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 30px;">
+        <div>
+            <h2 class="ta-h2" style="margin-bottom: 4px;">My Rating Requests</h2>
+            <p class="ta-body">Track and manage your submitted rating requests.</p>
+        </div>
+        <a href="{% url 'transparency_submit' %}" class="ta-btn">Submit New Request</a>
+    </div>
+
+    {% if requests %}
+    <div style="overflow-x: auto;">
+        <table class="ta-table">
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Status</th>
+                    <th>Submitted</th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td style="font-weight: 500;">{{ req.company_name }}</td>
+                    <td><span class="ta-badge ta-badge-{{ req.status }}">{{ req.get_status_display }}</span></td>
+                    <td>{{ req.created_at|date:"M d, Y" }}</td>
+                    <td>{{ req.updated_at|date:"M d, Y" }}</td>
+                    <td><a href="{% url 'transparency_request_detail' pk=req.pk %}" class="ta-text-red" style="text-decoration: none; font-weight: 500;">View &rarr;</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="ta-card ta-text-center" style="padding: 50px 20px;">
+        <p class="ta-body ta-mb-16" style="color: #999;">You haven't submitted any rating requests yet.</p>
+        <a href="{% url 'transparency_submit' %}" class="ta-btn">Submit Your First Request</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}Transparency Analytics{% endblock %}
+{% block ta_content %}
+
+<!-- Hero -->
+<div style="background: linear-gradient(135deg, #1a1a2e 0%, #D81D3E 100%); padding: 80px 4vw; color: #fff;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+        <div>
+            <h1 style="font-size: 40px; font-weight: 700; margin-bottom: 16px; line-height: 1.2;">Transparent, model-driven ratings for private credit.</h1>
+            <p style="font-size: 17px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6;">Transparency Analytics is a new company dedicated to measuring risk and delivering transparent, technology-driven solutions for clients in the evolving world of private credit.</p>
+            <a href="{% url 'transparency_contact' %}" class="ta-btn" style="padding: 16px 36px; font-size: 16px;">Get started</a>
+        </div>
+        <div style="text-align: center;">
+            <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/1824258a-5519-4c55-be03-68758b03b438/two-city-logo.png" alt="Transparency Analytics" style="max-width: 400px; margin: 0 auto;">
+        </div>
+    </div>
+</div>
+<style>
+    @media (max-width: 767px) {
+        .ta-hero-grid { grid-template-columns: 1fr !important; }
+    }
+</style>
+
+<!-- In-Market Statement -->
+<div class="ta-section-light" style="padding: 50px 4vw; text-align: center;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <p class="ta-body" style="font-size: 17px; color: #333; line-height: 1.8;">Transparency Analytics is in market today, providing transparent corporate credit ratings for a variety of debt structures. Talk to us to get started with our real-time indicative ratings portal, or to engage with us for a full rating.</p>
+    </div>
+</div>
+
+<!-- Why Choose Us -->
+<div class="ta-container">
+    <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Why Transparency Analytics?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 30px;">
+        <div class="ta-card ta-card-lift ta-text-center">
+            <h3 class="ta-h4 ta-mb-8">Close Deals More Efficiently</h3>
+            <p class="ta-body">Clear scoring and modern workflows.</p>
+        </div>
+        <div class="ta-card ta-card-lift ta-text-center">
+            <h3 class="ta-h4 ta-mb-8">No Longer a Black Box</h3>
+            <p class="ta-body">Full transparency and certainty during rating review.</p>
+        </div>
+        <div class="ta-card ta-card-lift ta-text-center">
+            <h3 class="ta-h4 ta-mb-8">Scaled to Fit Your Business</h3>
+            <p class="ta-body">Modern ratings that move at your pace &mdash; structured, explainable, and quick.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Benefits -->
+<div class="ta-section-light" style="padding: 60px 4vw;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+        <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Benefits</h2>
+        <div class="ta-benefit-grid ta-mt-30">
+            <div class="ta-benefit-card">
+                <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/21274184-f09c-47e7-8849-0fa6539fa8d8/Frame+4.png" alt="Rapid Turnaround" class="ta-benefit-icon">
+                <h4 class="ta-h4 ta-mb-8">Rapid Turnaround</h4>
+                <p class="ta-small">Instant indicative ratings produced in real time.</p>
+            </div>
+            <div class="ta-benefit-card">
+                <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/fe48dc9e-68f6-457a-9a75-998bad66b73b/Frame+2.png" alt="Streamlined Submissions" class="ta-benefit-icon">
+                <h4 class="ta-h4 ta-mb-8">Streamlined Submissions</h4>
+                <p class="ta-small">Upload, track, and manage deal docs in one place.</p>
+            </div>
+            <div class="ta-benefit-card">
+                <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/673bc78e-d775-425e-b7af-ee229e7f70e1/Frame+3.png" alt="Interactive Modeling" class="ta-benefit-icon">
+                <h4 class="ta-h4 ta-mb-8">Interactive Modeling</h4>
+                <p class="ta-small">Adjust terms. See the impact instantly.</p>
+            </div>
+            <div class="ta-benefit-card">
+                <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/815a330d-b595-4327-b1d8-1903f81ddaff/Frame+5.png" alt="Explainable Scores" class="ta-benefit-icon">
+                <h4 class="ta-h4 ta-mb-8">Explainable Scores</h4>
+                <p class="ta-small">Clear logic behind every input. No surprises in committee.</p>
+            </div>
+            <div class="ta-benefit-card">
+                <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/f3b32fd2-5e72-4893-9fb2-26f1bae022cc/Frame+6.png" alt="Live Progress Tracking" class="ta-benefit-icon">
+                <h4 class="ta-h4 ta-mb-8">Live Progress Tracking</h4>
+                <p class="ta-small">Always know where your rating stands.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How We Deliver -->
+<div class="ta-container">
+    <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">How we deliver speed and structure</h2>
+    <div style="max-width: 750px; margin: 30px auto 0;">
+        <div class="ta-accordion">
+            <div class="ta-accordion-header" onclick="toggleAccordion(this)">
+                <span>Smart Submission Tools</span>
+                <span class="ta-accordion-icon">+</span>
+            </div>
+            <div class="ta-accordion-body">Guided uploads and document tracking are built into a secure data room. No bottlenecks. No email chases.</div>
+        </div>
+        <div class="ta-accordion">
+            <div class="ta-accordion-header" onclick="toggleAccordion(this)">
+                <span>Built-in Collaboration</span>
+                <span class="ta-accordion-icon">+</span>
+            </div>
+            <div class="ta-accordion-body">Exchange feedback with analysts directly in the platform. Stay aligned. Keep momentum.</div>
+        </div>
+        <div class="ta-accordion">
+            <div class="ta-accordion-header" onclick="toggleAccordion(this)">
+                <span>Scenario Modeling Engine</span>
+                <span class="ta-accordion-icon">+</span>
+            </div>
+            <div class="ta-accordion-body">Tweak deal terms and preview rating impact in real time.</div>
+        </div>
+        <div class="ta-accordion">
+            <div class="ta-accordion-header" onclick="toggleAccordion(this)">
+                <span>Transparent Methodology View</span>
+                <span class="ta-accordion-icon">+</span>
+            </div>
+            <div class="ta-accordion-body">Comprehensive compliance and regulatory services to ensure adherence to industry standards. We help navigate complex regulatory requirements and maintain compliance.</div>
+        </div>
+        <div class="ta-accordion">
+            <div class="ta-accordion-header" onclick="toggleAccordion(this)">
+                <span>Professional, Compliant Reports</span>
+                <span class="ta-accordion-icon">+</span>
+            </div>
+            <div class="ta-accordion-body">Designed for enterprise reliability, our reports combine structured data presentation with audit-ready formatting.</div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Report -->
+<div class="ta-section-light" style="padding: 60px 4vw;">
+    <div class="ta-featured">
+        <div>
+            <img src="https://images.squarespace-cdn.com/content/676f0347d4bf61676db08489/f9c1e87e-6596-404d-9d08-9e29eb96051d/bgfoods_prdmn_031218.jpg?content-type=image%2Fjpeg" alt="B&amp;G Foods" class="ta-featured-img">
+        </div>
+        <div class="ta-featured-body">
+            <p class="ta-small ta-mb-8" style="color: #999;">July 18, 2025</p>
+            <h3 class="ta-h2 ta-mb-12">B&amp;G Foods Corporate Credit Rating</h3>
+            <p class="ta-body ta-mb-16">Comprehensive analysis of B&amp;G Foods' financial position, market performance, and creditworthiness in the packaged foods sector.</p>
+            <p class="ta-text-red ta-mb-24" style="font-size: 16px; font-weight: 600;">B- | Stable Outlook</p>
+            <div><a href="{% url 'transparency_insights' %}" class="ta-btn">View Full Report</a></div>
+        </div>
+    </div>
+</div>
+
+<!-- Team -->
+<div class="ta-container" id="team">
+    <h2 class="ta-h2 ta-text-center ta-mb-30" style="font-size: 28px;">Built for trust, backed by experts</h2>
+    <div class="ta-team-grid">
+        {% for member in team %}
+        <div class="ta-team-card">
+            {% if member.photo_url %}
+            <div class="ta-team-img-wrap">
+                <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="ta-team-img">
+                <div class="ta-team-overlay">
+                    <h4>{{ member.name }}</h4>
+                    <p>{{ member.title }}</p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="ta-team-body">
+                {% if not member.photo_url %}
+                <h4 class="ta-h4 ta-mb-4">{{ member.name }}</h4>
+                <p class="ta-text-red ta-small ta-mb-8" style="text-transform: uppercase; letter-spacing: 0.5px;">{{ member.title }}</p>
+                {% endif %}
+                <p class="ta-small" style="line-height: 1.5;">{{ member.bio }}</p>
+                {% if member.linkedin_url %}
+                <a href="{{ member.linkedin_url }}" target="_blank" class="ta-team-linkedin">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Methodologies -->
+<div class="ta-section-light" style="padding: 60px 4vw;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+        <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Methodologies and Rating Scales</h2>
+        <p class="ta-body ta-text-center" style="max-width: 900px; margin: 16px auto 30px;">Our core corporate credit methodology is a structured framework that defines the key quantitative metrics and qualitative factors behind every rating outcome. In addition, Transparency Analytics also offers a variety of focused methodologies, purpose built approaches that address the distinct complexities and characteristics of private credit markets and their participants.</p>
+        <div class="ta-meth-grid">
+            {% for m in methodologies %}
+            <div class="ta-meth-card">
+                <h4 class="ta-h4 ta-mb-8">{{ m.title }}</h4>
+                <p class="ta-small ta-mb-12" style="line-height: 1.6;">{{ m.description }}</p>
+                {% if m.pdf_url %}
+                <a href="{{ m.pdf_url }}" class="ta-btn ta-btn-outline ta-btn-sm">View PDF</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- FAQ -->
+<div class="ta-container">
+    <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">FAQs</h2>
+    <div style="max-width: 750px; margin: 24px auto 0;">
+        {% for faq in faqs %}
+        <div class="ta-accordion">
+            <div class="ta-accordion-header" onclick="toggleAccordion(this)">
+                <span>{{ faq.question }}</span>
+                <span class="ta-accordion-icon">+</span>
+            </div>
+            <div class="ta-accordion-body">{{ faq.answer }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="ta-footer">
+    <p style="font-size: 14px; opacity: 0.7;">917-268-0710</p>
+    <p style="font-size: 14px; opacity: 0.7;">25 Broadway, New York, NY, 10004</p>
+    <p style="font-size: 12px; opacity: 0.5; margin-top: 12px;">Transparency Analytics is not registered as an NRSRO with the Securities and Exchange Commission.</p>
+</div>
+{% endblock %}

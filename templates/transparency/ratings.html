@@ -1,0 +1,64 @@
+{% extends "transparency/transparency_base.html" %}
+{% block ta_title %}Recent Ratings — Transparency Analytics{% endblock %}
+{% block ta_content %}
+<div class="ta-container">
+    <h2 class="ta-h2">Recent Ratings</h2>
+
+    {% if current_ratings %}
+    <div style="overflow-x: auto;">
+        <table class="ta-table">
+            <thead>
+                <tr>
+                    <th>Issuer</th>
+                    <th>Industry</th>
+                    <th>Final Rating</th>
+                    <th>Outlook</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in current_ratings %}
+                <tr>
+                    <td style="font-weight: 500;">{{ r.issuer }}</td>
+                    <td>{{ r.industry }}</td>
+                    <td><strong>{{ r.rating }}</strong></td>
+                    <td>{{ r.outlook }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="ta-body">No current ratings available.</p>
+    {% endif %}
+
+    {% if previous_ratings %}
+    <h2 class="ta-h2 ta-mt-40">Previous Ratings</h2>
+    <div style="overflow-x: auto;">
+        <table class="ta-table">
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Industry</th>
+                    <th>Issuer Credit Rating</th>
+                    <th>Outlook</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in previous_ratings %}
+                <tr>
+                    <td style="font-weight: 500;">{{ r.issuer }}</td>
+                    <td>{{ r.industry }}</td>
+                    <td><strong>{{ r.rating }}</strong></td>
+                    <td>{{ r.outlook }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<div class="ta-footer">
+    <p style="font-size: 12px; opacity: 0.5;">Transparency Analytics is not registered as an NRSRO with the Securities and Exchange Commission.</p>
+</div>
+{% endblock %}
