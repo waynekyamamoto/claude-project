@@ -3,28 +3,41 @@
 {% block ta_content %}
 
 <!-- Hero -->
-<div class="ta-hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #D81D3E 100%); padding: 80px 4vw; color: #fff;">
-    <div class="ta-hero-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-        <div>
-            <h1 class="ta-hero-title" style="font-size: 40px; font-weight: 700; margin-bottom: 16px; line-height: 1.2;">Transparent, model-driven ratings for private credit.</h1>
-            <p style="font-size: 17px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6;">Transparency Analytics is a new company dedicated to measuring risk and delivering transparent, technology-driven solutions for clients in the evolving world of private credit.</p>
-            <a href="{% url 'transparency_contact' %}" class="ta-btn" style="padding: 16px 36px; font-size: 16px;">Get started</a>
+<div class="ta-hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #D81D3E 100%); color: #fff; padding: 60px 4vw; overflow: hidden;">
+    <div class="ta-hero-inner">
+        <div class="ta-hero-text">
+            <h1 class="ta-hero-title">Transparent, model-driven ratings for private credit.</h1>
+            <p class="ta-hero-desc">Transparency Analytics is a new company dedicated to measuring risk and delivering transparent, technology-driven solutions for clients in the evolving world of private credit.</p>
+            <a href="{% url 'transparency_contact' %}" class="ta-btn ta-hero-btn">Get started</a>
         </div>
-        <div class="ta-hero-img" style="text-align: center;">
-            <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/1824258a-5519-4c55-be03-68758b03b438/two-city-logo.png" alt="Transparency Analytics" style="max-width: 400px; width: 100%; margin: 0 auto;">
+        <div class="ta-hero-img">
+            <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/1824258a-5519-4c55-be03-68758b03b438/two-city-logo.png" alt="Transparency Analytics">
         </div>
     </div>
 </div>
 <style>
     .ta-section-title { font-size: 28px; }
+    .ta-hero-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+    .ta-hero-text { flex: 1; }
+    .ta-hero-title { font-size: 40px; font-weight: 700; margin-bottom: 16px; line-height: 1.2; }
+    .ta-hero-desc { font-size: 17px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6; }
+    .ta-hero-btn { padding: 16px 36px; font-size: 16px; }
+    .ta-hero-img { flex: 0 0 auto; text-align: center; }
+    .ta-hero-img img { max-width: 380px; width: 100%; }
+
     @media (max-width: 767px) {
-        .ta-hero { padding: 40px 5vw !important; }
-        .ta-hero-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
-        .ta-hero-title { font-size: 24px !important; }
-        .ta-hero .ta-btn { padding: 12px 24px !important; font-size: 14px !important; }
-        .ta-hero p { font-size: 14px !important; margin-bottom: 20px !important; }
-        .ta-hero-img { order: -1; }
-        .ta-hero-img img { max-width: 220px !important; margin: 0 auto; }
+        .ta-hero { padding: 36px 5vw !important; }
+        .ta-hero-inner { flex-direction: column; gap: 24px; }
+        .ta-hero-title { font-size: 28px; }
+        .ta-hero-desc { font-size: 14px; margin-bottom: 20px; }
+        .ta-hero-btn { padding: 12px 24px; font-size: 14px; }
+        .ta-hero-img img { max-width: 200px; }
         .ta-section-title { font-size: 22px !important; }
         .ta-why-grid { grid-template-columns: 1fr !important; }
     }
