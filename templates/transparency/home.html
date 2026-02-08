@@ -3,10 +3,10 @@
 {% block ta_content %}
 
 <!-- Hero -->
-<div style="background: linear-gradient(135deg, #1a1a2e 0%, #D81D3E 100%); padding: 80px 4vw; color: #fff;">
-    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+<div class="ta-hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #D81D3E 100%); padding: 80px 4vw; color: #fff;">
+    <div class="ta-hero-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
         <div>
-            <h1 style="font-size: 40px; font-weight: 700; margin-bottom: 16px; line-height: 1.2;">Transparent, model-driven ratings for private credit.</h1>
+            <h1 class="ta-hero-title" style="font-size: 40px; font-weight: 700; margin-bottom: 16px; line-height: 1.2;">Transparent, model-driven ratings for private credit.</h1>
             <p style="font-size: 17px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6;">Transparency Analytics is a new company dedicated to measuring risk and delivering transparent, technology-driven solutions for clients in the evolving world of private credit.</p>
             <a href="{% url 'transparency_contact' %}" class="ta-btn" style="padding: 16px 36px; font-size: 16px;">Get started</a>
         </div>
@@ -16,22 +16,29 @@
     </div>
 </div>
 <style>
+    .ta-section-title { font-size: 28px; }
     @media (max-width: 767px) {
-        .ta-hero-grid { grid-template-columns: 1fr !important; }
+        .ta-hero { padding: 40px 5vw !important; }
+        .ta-hero-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+        .ta-hero-title { font-size: 26px !important; }
+        .ta-hero .ta-btn { padding: 12px 24px !important; font-size: 14px !important; }
+        .ta-hero p { font-size: 15px !important; }
+        .ta-section-title { font-size: 22px !important; }
+        .ta-why-grid { grid-template-columns: 1fr !important; }
     }
 </style>
 
 <!-- In-Market Statement -->
 <div class="ta-section-light" style="padding: 50px 4vw; text-align: center;">
     <div style="max-width: 800px; margin: 0 auto;">
-        <p class="ta-body" style="font-size: 17px; color: #333; line-height: 1.8;">Transparency Analytics is in market today, providing transparent corporate credit ratings for a variety of debt structures. Talk to us to get started with our real-time indicative ratings portal, or to engage with us for a full rating.</p>
+        <p class="ta-body" style="font-size: 16px; color: #333; line-height: 1.8;">Transparency Analytics is in market today, providing transparent corporate credit ratings for a variety of debt structures. Talk to us to get started with our real-time indicative ratings portal, or to engage with us for a full rating.</p>
     </div>
 </div>
 
 <!-- Why Choose Us -->
 <div class="ta-container">
-    <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Why Transparency Analytics?</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 30px;">
+    <h2 class="ta-h2 ta-text-center ta-section-title">Why Transparency Analytics?</h2>
+    <div class="ta-why-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 30px;">
         <div class="ta-card ta-card-lift ta-text-center">
             <h3 class="ta-h4 ta-mb-8">Close Deals More Efficiently</h3>
             <p class="ta-body">Clear scoring and modern workflows.</p>
@@ -50,7 +57,7 @@
 <!-- Benefits -->
 <div class="ta-section-light" style="padding: 60px 4vw;">
     <div style="max-width: 1400px; margin: 0 auto;">
-        <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Benefits</h2>
+        <h2 class="ta-h2 ta-text-center" class="ta-section-title">Benefits</h2>
         <div class="ta-benefit-grid ta-mt-30">
             <div class="ta-benefit-card">
                 <img src="https://images.squarespace-cdn.com/content/v1/676f0347d4bf61676db08489/21274184-f09c-47e7-8849-0fa6539fa8d8/Frame+4.png" alt="Rapid Turnaround" class="ta-benefit-icon">
@@ -83,7 +90,7 @@
 
 <!-- How We Deliver -->
 <div class="ta-container">
-    <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">How we deliver speed and structure</h2>
+    <h2 class="ta-h2 ta-text-center" class="ta-section-title">How we deliver speed and structure</h2>
     <div style="max-width: 750px; margin: 30px auto 0;">
         <div class="ta-accordion">
             <div class="ta-accordion-header" onclick="toggleAccordion(this)">
@@ -141,7 +148,7 @@
 
 <!-- Team -->
 <div class="ta-container" id="team">
-    <h2 class="ta-h2 ta-text-center ta-mb-30" style="font-size: 28px;">Built for trust, backed by experts</h2>
+    <h2 class="ta-h2 ta-text-center ta-mb-30" class="ta-section-title">Built for trust, backed by experts</h2>
     <div class="ta-team-grid">
         {% for member in team %}
         <div class="ta-team-card">
@@ -174,7 +181,7 @@
 <!-- Methodologies -->
 <div class="ta-section-light" style="padding: 60px 4vw;">
     <div style="max-width: 1400px; margin: 0 auto;">
-        <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Methodologies and Rating Scales</h2>
+        <h2 class="ta-h2 ta-text-center" class="ta-section-title">Methodologies and Rating Scales</h2>
         <p class="ta-body ta-text-center" style="max-width: 900px; margin: 16px auto 30px;">Our core corporate credit methodology is a structured framework that defines the key quantitative metrics and qualitative factors behind every rating outcome. In addition, Transparency Analytics also offers a variety of focused methodologies, purpose built approaches that address the distinct complexities and characteristics of private credit markets and their participants.</p>
         <div class="ta-meth-grid">
             {% for m in methodologies %}
@@ -192,7 +199,7 @@
 
 <!-- FAQ -->
 <div class="ta-container">
-    <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">FAQs</h2>
+    <h2 class="ta-h2 ta-text-center" class="ta-section-title">FAQs</h2>
     <div style="max-width: 750px; margin: 24px auto 0;">
         {% for faq in faqs %}
         <div class="ta-accordion">

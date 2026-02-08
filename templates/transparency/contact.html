@@ -5,7 +5,7 @@
     <h2 class="ta-h2 ta-text-center" style="font-size: 28px;">Contact Us</h2>
     <p class="ta-body ta-text-center ta-mb-30">If you're interested in collaborating, please provide your information, and we will contact you soon.</p>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+    <div class="ta-contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
         <div>
             {% if success %}
             <div class="ta-success">Thank you!</div>
@@ -60,8 +60,9 @@
 
 <style>
     @media (max-width: 767px) {
-        .ta-container > div[style*="grid-template-columns: 1fr 1fr"] {
+        .ta-contact-grid {
             grid-template-columns: 1fr !important;
+            gap: 24px !important;
         }
     }
 </style>

@@ -109,8 +109,8 @@
             .ta-header-nav { display: none; }
             .ta-ww-link { display: none; }
             .ta-hamburger { display: block; }
-            .ta-header-logo img { max-height: 26px; }
-            .ta-header { padding: 12px 6vw; }
+            .ta-header-logo img { max-height: 24px; }
+            .ta-header { padding: 10px 4vw; }
         }
 
         /* === Layout === */
@@ -441,6 +441,76 @@
         }
         @media (max-width: 700px) {
             .ta-two-col { grid-template-columns: 1fr; }
+        }
+
+        /* === Mobile Responsive === */
+        @media (max-width: 767px) {
+            /* Typography */
+            .ta-h1 { font-size: 22px; }
+            .ta-h2 { font-size: 20px; }
+            .ta-h3 { font-size: 17px; }
+            .ta-h4 { font-size: 15px; }
+            .ta-body { font-size: 14px; }
+            .ta-small { font-size: 12px; }
+
+            /* Container */
+            .ta-container { padding: 30px 5vw; }
+
+            /* Cards */
+            .ta-card { padding: 20px; }
+            .ta-meth-card { padding: 20px; }
+
+            /* Grids - single column on phone */
+            .ta-meth-grid { grid-template-columns: 1fr; }
+            .ta-insight-grid { grid-template-columns: 1fr; }
+            .ta-insight-card { padding: 20px; }
+
+            /* Benefits - 2 columns on phone */
+            .ta-benefit-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .ta-benefit-card { padding: 16px 8px; }
+            .ta-benefit-icon { width: 36px; height: 36px; margin-bottom: 10px; }
+
+            /* Tables */
+            .ta-table th { padding: 8px 10px; font-size: 12px; }
+            .ta-table td { padding: 8px 10px; font-size: 13px; }
+
+            /* Accordion */
+            .ta-accordion-header { padding: 14px 16px; font-size: 14px; }
+            .ta-accordion-body { font-size: 14px; }
+            .ta-accordion-body.open { padding: 0 16px 16px; }
+            .ta-accordion-icon { font-size: 18px; margin-left: 10px; }
+
+            /* Team */
+            .ta-team-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .ta-team-body { padding: 12px; }
+            .ta-team-overlay h4 { font-size: 13px; }
+            .ta-team-overlay p { font-size: 11px; }
+
+            /* Featured */
+            .ta-featured { grid-template-columns: 1fr; }
+            .ta-featured-body { padding: 20px; }
+
+            /* Forms */
+            .ta-form-group input,
+            .ta-form-group textarea,
+            .ta-form-group select { padding: 10px 12px; font-size: 14px; }
+
+            /* Buttons */
+            .ta-btn { padding: 10px 20px; font-size: 13px; }
+
+            /* Footer */
+            .ta-footer { padding: 30px 5vw; }
+
+            /* Badges */
+            .ta-badge { font-size: 11px; padding: 3px 10px; }
+
+            /* Section light padding */
+            .ta-section-light { padding: 30px 5vw !important; }
+        }
+
+        @media (max-width: 380px) {
+            .ta-team-grid { grid-template-columns: 1fr; max-width: 280px; }
+            .ta-benefit-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
